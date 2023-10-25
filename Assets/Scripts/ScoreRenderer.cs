@@ -17,7 +17,7 @@ public class ScoreRenderer : MonoBehaviour
         mesh.SetText("Score: " + score.ToString());
     }
 
-    void Start()
+    private void Start()
     {
         mesh = GetComponent<TextMeshProUGUI>();
         if (isGameOver)

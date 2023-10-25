@@ -9,7 +9,6 @@ public class Coin : MonoBehaviour
     public float frameDelay = 30;
     public float throwProbability = 0.05f;
     public float relocationProbability = 0.02f;
-
     public int cost = 0;
     private bool isFenceReached = false;
     private bool isVisible = false;
@@ -34,16 +33,16 @@ public class Coin : MonoBehaviour
         UpdateEnable();
     }
 
+    void Throw()
+    {
+        Instantiate(spikePrefab, transform.position, Quaternion.identity);
+    }
+
     private void Start()
     {
         RandomLocation();
         FindAnyObjectByType<PlayerControl>().OnPlayerFenceReached += HandleFence;
         enabled = false;
-    }
-
-    void Throw()
-    {
-        Instantiate(spikePrefab, transform.position, Quaternion.identity);
     }
 
     private void Update()

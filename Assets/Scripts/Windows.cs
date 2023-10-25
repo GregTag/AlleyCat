@@ -8,7 +8,6 @@ public class Windows : MonoBehaviour
     public float appearProbability = 0.5f;
     public float disappearProbability = 0.2f;
     private GameObject[] windows;
-
     private int activeWindow = -1;
 
     private void DeactivateWindow()

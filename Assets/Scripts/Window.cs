@@ -11,7 +11,6 @@ public class Window : MonoBehaviour
     public float throwProbability = 0.5f;
     private Animator animator;
 
-
     public void Activate()
     {
         animator.SetBool("IsOpen", true);
@@ -32,7 +31,6 @@ public class Window : MonoBehaviour
         Instantiate(spikePrefab, position, Quaternion.identity);
 
     }
-
 
     private void Start()
     {

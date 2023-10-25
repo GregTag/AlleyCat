@@ -7,7 +7,7 @@ public class LivesRenderer : MonoBehaviour
 {
     private TextMeshProUGUI mesh;
 
-    void Start()
+    private void Start()
     {
         mesh = GetComponent<TextMeshProUGUI>();
         FindAnyObjectByType<PlayerControl>().OnPlayerDeath += UpdateLives;

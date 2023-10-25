@@ -18,14 +18,29 @@ public class Enemy : MonoBehaviour
     private Vector3 startLocation;
     private EnemyState state = EnemyState.Respawning;
 
-    void Start()
+    private void Flip()
+    {
+        moveSpeed *= -1;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
+
+    private void Respawn()
+    {
+        int spawnIndex = Random.Range(0, 1);
+        var position = transform.position;
+        position.x = offset * (spawnIndex == 0 ? -1 : 1);
+    }
+
+    private void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         FindAnyObjectByType<PlayerControl>().OnPlayerFenceReached += isReached => enabled = !isReached;
         startLocation = transform.position;
     }
 
-    void Update()
+    private void Update()
     {
         if (Time.frameCount % frameDelay != 0 || state != EnemyState.Respawning)
         {
@@ -57,21 +72,5 @@ public class Enemy : MonoBehaviour
         state = EnemyState.Respawning;
         rigidBody.velocity = Vector2.zero;
         transform.position = startLocation;
-    }
-
-
-    void Flip()
-    {
-        moveSpeed *= -1;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
-    }
-
-    private void Respawn()
-    {
-        int spawnIndex = Random.Range(0, 1);
-        var position = transform.position;
-        position.x = offset * (spawnIndex == 0 ? -1 : 1);
     }
 }

@@ -7,6 +7,17 @@ public class PlayerControl : MonoBehaviour
 {
     public float moveSpeed = 7f;
     public float jumpForce = 14f;
+    public float fenceHeight = 1f;
+    [SerializeField]
+    private int lives = 3;
+
+    public delegate void PlayerFenceReached(bool isReached);
+    public event PlayerFenceReached OnPlayerFenceReached;
+
+    public delegate void PlayerDeath(int lives);
+    public event PlayerDeath OnPlayerDeath;
+
+
     private Rigidbody2D rigidBody;
     private Animator animator;
     private GameObject[] spawns;
@@ -16,9 +27,6 @@ public class PlayerControl : MonoBehaviour
     private bool isOnGrounded = false;
     private bool isFalling = false;
     private bool isFacingRight = true;
-    [SerializeField]
-    private int lives = 3;
-    public float fenceHeight = 1f;
     private bool isFenceReached = false;
 
     private bool IsFenceReached
@@ -35,12 +43,6 @@ public class PlayerControl : MonoBehaviour
             Debug.Log("Fence reached: " + isFenceReached);
         }
     }
-
-    public delegate void PlayerFenceReached(bool isReached);
-    public event PlayerFenceReached OnPlayerFenceReached;
-
-    public delegate void PlayerDeath(int lives);
-    public event PlayerDeath OnPlayerDeath;
 
     public void Die()
     {
@@ -64,10 +66,21 @@ public class PlayerControl : MonoBehaviour
         wasOnCloud = false;
     }
 
-    void Jump()
+    private void Jump()
     {
         rigidBody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
         isOnGrounded = false;
+    }
+
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+    }
+
+    private void SetGravity(bool enable)
+    {
+        rigidBody.gravityScale = enable ? gravitySlot : 0;
     }
 
     private void Start()
@@ -113,17 +126,6 @@ public class PlayerControl : MonoBehaviour
         {
             rigidBody.velocity = new Vector2(moveX * moveSpeed, rigidBody.velocity.y);
         }
-    }
-
-    private void Flip()
-    {
-        isFacingRight = !isFacingRight;
-        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-    }
-
-    private void SetGravity(bool enable)
-    {
-        rigidBody.gravityScale = enable ? gravitySlot : 0;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

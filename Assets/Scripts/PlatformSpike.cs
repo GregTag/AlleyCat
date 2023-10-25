@@ -17,13 +17,8 @@ public class PlatformSpike : MonoBehaviour
     public float disappearProbability = 0.3f;
     public int frameDelay = 120;
     private SpikeState state = SpikeState.Hidden;
-    void Start()
-    {
-        // Hide spikes at the start of the game
-        ToggleActive();
-    }
 
-    void ToggleActive()
+    private void ToggleActive()
     {
         const float large_number = 1000000f;
         var position = transform.position;
@@ -31,7 +26,13 @@ public class PlatformSpike : MonoBehaviour
         transform.position = position;
     }
 
-    void Update()
+    private void Start()
+    {
+        // Hide spikes at the start of the game
+        ToggleActive();
+    }
+
+    private void Update()
     {
         if (Time.frameCount % frameDelay != 0)
         {
